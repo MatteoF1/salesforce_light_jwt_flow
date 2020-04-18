@@ -32,14 +32,14 @@ def _now_utc() -> int:
 
 '''Create jwt token to authenticate
 '''
-def _create_encoded_token(customer_id: str, username: str, private_key_pem_location: Path) -> str:
+def _create_encoded_token(customer_id: str, salesforce_username: str, private_key_pem_location: Path, key_password = None) -> str:
     jwt_header = {'alg':'RS256'}
 
     jwt_claim = {
         "iss": customer_id,
         "aud": 'https://login.salesforce.com',
         "exp": _generate_token_lifetime(),
-        "sub": username,
+        "sub": salesforce_username,
         "jti" : str(uuid4())
     }
 
@@ -49,12 +49,12 @@ def _create_encoded_token(customer_id: str, username: str, private_key_pem_locat
     with open(private_key_pem_location, 'rb') as keyfile:
         private_key = serialization.load_pem_private_key(keyfile.read(),password=PRIVATE_KEY_PASSWORD,backend=default_backend())
         signed = private_key.sign(encodedToken.encode('UTF-8'), padding.PKCS1v15(), hashes.SHA256())    
-        
+            
     return encodedToken + '.' + urlsafe_b64encode(signed).decode()
     
 '''Verify an existing digital signature
 '''
-def _verify_encoded_token(digital_signature: bytes, actual_file: str, certificate_pem_location: Path):
+def _verify_encoded_token(digital_signature: bytes, actual_file: bytes, certificate_pem_location: Path):
     with open(certificate_pem_location, 'rb') as cfile:
         cert = x509.load_pem_x509_certificate(cfile.read(), default_backend())
         public_key = cert.public_key()
