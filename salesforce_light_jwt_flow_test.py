@@ -15,7 +15,7 @@ TEST_SALESFORCE_USERNAME = 'salesforce_light_jwt_flow@test.com'
 '''
 class RequestAccessToken(unittest.TestCase):
     def test_sign_token(self):
-        encodedToken = salesforce_light_jwt_flow._create_encoded_token(customer_id=TEST_CUSTOMER_ID, salesforce_username=TEST_SALESFORCE_USERNAME, private_key_pem_location=Path('test_key/key_enc.pem'), key_password='mypassphrase')
+        encodedToken = salesforce_light_jwt_flow._create_encoded_token(customer_id=TEST_CUSTOMER_ID, salesforce_username=TEST_SALESFORCE_USERNAME, private_key_pem_location=Path('test_key/key_enc.pem'), key_password=b'mypassphrase')
         strings = encodedToken.split('.')
         
         # string must have only 3 dots
@@ -33,6 +33,12 @@ class RequestAccessToken(unittest.TestCase):
         # signature verification
         third_part = strings[2]
         salesforce_light_jwt_flow._verify_encoded_token(urlsafe_b64decode(third_part), (first_part + '.' + second_part).encode('UTF-8'), Path('test_key/cert.pem'))
+
+    def test_oauth_scope_verification(self):
+        dummy_response = {'scope':'api'}
+        self.assertTrue(salesforce_light_jwt_flow.verify_scope(dummy_response, 'api'))
+        self.assertFalse(salesforce_light_jwt_flow.verify_scope(dummy_response, 'full_access'))
+        
 
 if __name__ == '__main__':
     unittest.main()
