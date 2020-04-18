@@ -61,9 +61,9 @@ def _verify_encoded_token(digital_signature: bytes, actual_file: bytes, certific
 
 '''Requesting access
 '''
-def request_access_token(salesforce_login_endpoint: str, customer_id: str, username: str, private_key_pem_location: str, key_password = None):
+def request_access_token(salesforce_login_endpoint: str, customer_id: str, username: str, private_key_pem_location: str, key_password = None) -> dict:
     encodedToken = _create_encoded_token(customer_id, username, private_key_pem_location, key_password)
     resp = requests.post(salesforce_login_endpoint, \
         headers={'Content-Type':'application/x-www-form-urlencoded'},\
             data={'grant_type':'urn:ietf:params:oauth:grant-type:jwt-bearer', 'assertion':encodedToken})
-    print('Response: ' + resp.content.decode('UTF-8'))
+    return json.loads(resp.content.decode('UTF-8'))
