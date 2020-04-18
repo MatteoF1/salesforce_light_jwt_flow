@@ -59,6 +59,11 @@ def _verify_encoded_token(digital_signature: bytes, actual_file: bytes, certific
         public_key = cert.public_key()
         public_key.verify(digital_signature, actual_file, padding.PKCS1v15(), hashes.SHA256())
 
+'''Specific applications can require a specific OAuth 2 scope
+'''
+def verify_scope(response: dict, scope_to_verify: str):
+    assert(scope_to_verify in response.keys())
+
 '''Requesting access
 '''
 def request_access_token(salesforce_login_endpoint: str, customer_id: str, username: str, private_key_pem_location: str, key_password = None) -> dict:
