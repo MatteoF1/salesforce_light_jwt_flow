@@ -66,7 +66,7 @@ def verify_scope(response: dict, scope_to_verify: str):
 
 '''Requesting access
 '''
-def request_access_token(salesforce_login_endpoint: str, customer_id: str, username: str, private_key_pem_location: str, key_password = None) -> dict:
+def request_access_token(customer_id: str, username: str, private_key_pem_location: str, salesforce_login_endpoint = SALESFORCE_LOGIN_ENDPOINT_PROD, key_password = None) -> dict:
     encodedToken = _create_encoded_token(customer_id, username, private_key_pem_location, key_password)
     resp = requests.post(salesforce_login_endpoint, \
         headers={'Content-Type':'application/x-www-form-urlencoded'},\
