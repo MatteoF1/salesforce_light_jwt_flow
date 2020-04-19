@@ -1,1 +1,1 @@
-from .salesforce_light_jwt_flow import request_access_token
+from .salesforce_light_jwt_flow import request_access_token, verify_scope
