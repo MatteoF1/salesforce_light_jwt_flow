@@ -1,10 +1,11 @@
 # Salesforce Light JWT Flow
 
 Lightweight module to implement JWT Flow for Server To Server
-integrations in Salesforce. Steps:
+integrations in Salesforce. 
 
 ## Configuration
 
+Steps:
 - Create X509 Certificate
 - Create Named Credential in Salesforce and upload the newly created Certificate.
     - The Named Credential needs the following properties:
