@@ -22,3 +22,4 @@ The module can be used as follows:
         - the username for the selected user
         - the private key related to the X509 Certificate location
         - the private key password, if it exists
+    - use the provided token in the Authentication Header of the calls
