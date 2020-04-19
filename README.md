@@ -17,10 +17,10 @@ Steps:
 ## How to Use
 
 The module can be used as follows:
-    - call *request_access_token* providing:
-        - the desired login endpoint
-        - the customer key related to the Named Credential
-        - the username for the selected user
-        - the private key related to the X509 Certificate location
-        - the private key password, if it exists
-    - use the provided token in the Authentication Header of the calls
+- call *request_access_token* providing:
+    - the desired login endpoint
+    - the customer key related to the Named Credential
+    - the username for the selected user
+    - the private key related to the X509 Certificate location
+    - the private key password, if it exists
+- use the provided token in the Authentication Header of the calls
